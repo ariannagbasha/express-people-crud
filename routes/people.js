@@ -86,8 +86,8 @@ router.put("/:peopleId", async (req, res) => {
 router.delete("/:peopleId", async (req, res) => {
   try {
     await db.deleteEntity("people", req.params.peopleId);
-    res.status(200).json(people)
-  } catch {
+    res.status(200).send("ok")
+  } catch (err) { 
     res.status(500).send("Internal Server Error");
   }
 });
