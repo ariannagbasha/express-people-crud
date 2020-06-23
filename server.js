@@ -14,6 +14,8 @@ app.use(express.urlencoded({ extended: false }));
 // TODO serve built react files
 app.use(express.static(staticDirectory));
 
+
+
 const port = 3000;
 
 app.get("/", (req, res) => {

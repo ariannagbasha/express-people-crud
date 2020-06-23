@@ -30,10 +30,8 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const people = await db.readEntity("people");
-    res.status(201)
-    people.push({...req.body, id: uuidv4()})
-    res.json(people);
+    const person = await db.readEntity("people", req.body);
+    res.status(201).json(person);
   } catch {
     res.status(500).send("Internal Server Error");
   }
