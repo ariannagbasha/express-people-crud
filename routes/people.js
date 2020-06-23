@@ -71,9 +71,9 @@ router.get("/:personId", async (req, res) => {
  */
 router.put("/:peopleId", async (req, res) => {
   try {
-    await db.updateEntity("people", req.params.peopleId, req.body);
+    await db.updateEntity("people", req.body, req.params.peopleId);
     res.status(200).json(people);
-  } catch {
+  } catch (err) {
     res.status(500).send("Internal Server Error");
   }
 });
