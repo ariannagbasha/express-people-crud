@@ -47,6 +47,9 @@ router.get("/", async (req, res) => {
   try {
     const people = await db.readEntity("people");
     res.status(200)
+    const foundPerson = people.find(
+      (person) => person.id = req.params.personId
+    )
     res.json(people);
   } catch {
     res.status(500).send("Internal Server Error");
@@ -58,7 +61,7 @@ router.get("/", async (req, res) => {
  * GOOD RESPONSE: updated person
  * ERROR CODE: 500 - Internal Server Error
  */
-router.patch("/", async (req, res) => {
+router.patch("/:peopleId", async (req, res) => {
   try {
     const people = await db.readEntity("people");
     res.status(200)
@@ -73,7 +76,7 @@ router.patch("/", async (req, res) => {
  * GOOD STATUS: 200
  * ERROR CODE: 500 - Internal Server Error
  */
-router.delete("/", async (req, res) => {
+router.delete("/:peopleId", async (req, res) => {
   try {
     const people = await db.readEntity("people");
     res.status(200)
