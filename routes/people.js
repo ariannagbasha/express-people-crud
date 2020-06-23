@@ -27,24 +27,60 @@ router.get("/", async (req, res) => {
  * ERROR CODE: 500 - Internal Server Error
  */
 
+router.post("/", async (req, res) => {
+  try {
+    const people = await db.readEntity("people");
+    res.status(201)
+    res.json(people);
+  } catch {
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 /**
  * GET ONE PERSON - find appropriate method
  * GOOD STATUS: 200
  * GOOD RESPONSE: person requested
  * ERROR CODE: 500 - Internal Server Error
  */
-
+router.get("/", async (req, res) => {
+  try {
+    const people = await db.readEntity("people");
+    res.status(200)
+    res.json(people);
+  } catch {
+    res.status(500).send("Internal Server Error");
+  }
+});
 /**
  * UPDATE ONE PERSON - find appropriate method
  * GOOD STATUS: 200
  * GOOD RESPONSE: updated person
  * ERROR CODE: 500 - Internal Server Error
  */
+router.patch("/", async (req, res) => {
+  try {
+    const people = await db.readEntity("people");
+    res.status(200)
+    res.json(people);
+  } catch {
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 /**
  * DELETE ONE PERSON - find appropriate method
  * GOOD STATUS: 200
  * ERROR CODE: 500 - Internal Server Error
  */
+router.delete("/", async (req, res) => {
+  try {
+    const people = await db.readEntity("people");
+    res.status(200)
+    res.json(people);
+  } catch {
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 export default router;
