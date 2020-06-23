@@ -4,7 +4,7 @@ import * as db from "../database.js";
 
 const router = express.Router();
 
-let people = []
+// let people = []
 /**
  * http://127.0.0.1:3000/people OR http://localhost:3000/people
  * GET ALL PEOPLE - appropriate method = GET .. no req.params needed
@@ -20,6 +20,18 @@ router.get("/", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+router.get("/:personId", async (req, res) => {
+  try {
+    const person = await db.findEntity("people", req.params.personId);
+    if (!person) {
+      res.status(404).send("Not Found");
+      return;
+    }
+    res.status(200).json(person);
+  } catch {
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 /**
  * CREATE ONE PERSON - find appropriate method
@@ -30,7 +42,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const person = await db.readEntity("people", req.body);
+    const person = await db.createEntity("people", req.body);
     res.status(201).json(person);
   } catch {
     res.status(500).send("Internal Server Error");
@@ -45,12 +57,8 @@ router.post("/", async (req, res) => {
  */
 router.get("/:personId", async (req, res) => {
   try {
-    const people = await db.readEntity("people");
-    res.status(200)
-    const foundPerson = people.find(
-      (person) => person.id = req.params.personId
-    )
-    res.json(people);
+    await db.findEntity("people", req.params.peopleId);
+    res.status(200).json(people);
   } catch {
     res.status(500).send("Internal Server Error");
   }
@@ -63,9 +71,8 @@ router.get("/:personId", async (req, res) => {
  */
 router.put("/:peopleId", async (req, res) => {
   try {
-    const people = await db.readEntity("people");
-    res.status(200)
-    res.json(people);
+    await db.updateEntity("people", req.params.peopleId, req.body);
+    res.status(200).json(people);
   } catch {
     res.status(500).send("Internal Server Error");
   }
@@ -78,13 +85,8 @@ router.put("/:peopleId", async (req, res) => {
  */
 router.delete("/:peopleId", async (req, res) => {
   try {
-    const people = await db.readEntity("people");
-    res.status(200)
-    const foundPerson = people.find(
-      (person) => person.id = req.params.personId
-    )
-    people.filter((person) => person != foundPerson)
-    res.json(people);
+    await db.deleteEntity("people", req.params.peopleId);
+    res.status(200).json(people)
   } catch {
     res.status(500).send("Internal Server Error");
   }
