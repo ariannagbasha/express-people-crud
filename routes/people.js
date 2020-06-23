@@ -4,6 +4,7 @@ import * as db from "../database.js";
 
 const router = express.Router();
 
+let people = []
 /**
  * http://127.0.0.1:3000/people OR http://localhost:3000/people
  * GET ALL PEOPLE - appropriate method = GET .. no req.params needed
@@ -31,6 +32,7 @@ router.post("/", async (req, res) => {
   try {
     const people = await db.readEntity("people");
     res.status(201)
+    people.push({...req.body, id: uuidv4()})
     res.json(people);
   } catch {
     res.status(500).send("Internal Server Error");
@@ -43,7 +45,7 @@ router.post("/", async (req, res) => {
  * GOOD RESPONSE: person requested
  * ERROR CODE: 500 - Internal Server Error
  */
-router.get("/", async (req, res) => {
+router.get("/:personId", async (req, res) => {
   try {
     const people = await db.readEntity("people");
     res.status(200)
@@ -61,7 +63,7 @@ router.get("/", async (req, res) => {
  * GOOD RESPONSE: updated person
  * ERROR CODE: 500 - Internal Server Error
  */
-router.patch("/:peopleId", async (req, res) => {
+router.put("/:peopleId", async (req, res) => {
   try {
     const people = await db.readEntity("people");
     res.status(200)
@@ -80,6 +82,10 @@ router.delete("/:peopleId", async (req, res) => {
   try {
     const people = await db.readEntity("people");
     res.status(200)
+    const foundPerson = people.find(
+      (person) => person.id = req.params.personId
+    )
+    people.filter((person) => person != foundPerson)
     res.json(people);
   } catch {
     res.status(500).send("Internal Server Error");
