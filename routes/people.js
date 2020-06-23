@@ -16,7 +16,8 @@ router.get("/", async (req, res) => {
   try {
     const people = await db.readEntity("people");
     res.json(people);
-  } catch {
+  } catch (err) {
+    console.log(err)
     res.status(500).send("Internal Server Error");
   }
 });
@@ -28,7 +29,8 @@ router.get("/:personId", async (req, res) => {
       return;
     }
     res.status(200).json(person);
-  } catch {
+  } catch (err) {
+    console.log(err)
     res.status(500).send("Internal Server Error");
   }
 });
@@ -44,7 +46,8 @@ router.post("/", async (req, res) => {
   try {
     const person = await db.createEntity("people", req.body);
     res.status(201).json(person);
-  } catch {
+  } catch (err) {
+    console.log(err)
     res.status(500).send("Internal Server Error");
   }
 });
@@ -58,8 +61,9 @@ router.post("/", async (req, res) => {
 router.get("/:personId", async (req, res) => {
   try {
     await db.findEntity("people", req.params.peopleId);
-    res.status(200).json(people);
-  } catch {
+    res.json(people);
+  } catch (err) {
+    console.log(err)
     res.status(500).send("Internal Server Error");
   }
 });
@@ -71,9 +75,10 @@ router.get("/:personId", async (req, res) => {
  */
 router.put("/:peopleId", async (req, res) => {
   try {
-    await db.updateEntity("people", req.body, req.params.peopleId);
-    res.status(200).json(people);
+    await db.updateEntity("people", req.params.peopleId, req.body);
+    res.send("ok") // 
   } catch (err) {
+    console.log(err)
     res.status(500).send("Internal Server Error");
   }
 });
@@ -87,7 +92,8 @@ router.delete("/:peopleId", async (req, res) => {
   try {
     await db.deleteEntity("people", req.params.peopleId);
     res.status(200).send("ok")
-  } catch (err) { 
+  } catch (err) {  // Javascript quirk they have recently have (err) b/c we might need maybe one day......never used, expects something in here
+    console.log(err)
     res.status(500).send("Internal Server Error");
   }
 });
