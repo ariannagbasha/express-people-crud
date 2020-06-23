@@ -75,8 +75,8 @@ router.get("/:personId", async (req, res) => {
  */
 router.put("/:peopleId", async (req, res) => {
   try {
-    await db.updateEntity("people", req.params.peopleId, req.body);
-    res.send("ok") // 
+    const person = await db.updateEntity("people", req.params.peopleId, req.body);
+    res.json(person) // json sends as json short hand for json.stringfiy 
   } catch (err) {
     console.log(err)
     res.status(500).send("Internal Server Error");
